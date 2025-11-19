@@ -1,7 +1,12 @@
-// Pantalla sencilla para rutas no encontradas.
+import { Helmet } from 'react-helmet'
+
 function NotFoundPage({ navigate }) {
   return (
     <div className="page">
+      <Helmet>
+        <title>Página no encontrada | Tech Market</title>
+        <meta name="description" content="La página solicitada no existe." />
+      </Helmet>
       <div className="state state--empty" role="status">
         <h2>Página no encontrada</h2>
         <p>La sección que buscas no está disponible.</p>

@@ -1,8 +1,21 @@
+import { Helmet } from 'react-helmet'
+import { toast } from 'react-toastify'
 import { formatCurrency } from '../utils/formatters.js'
+import { useCart } from '../context/CartContext.jsx'
+import { useProducts } from '../context/ProductContext.jsx'
 
-// Muestra la información completa de un producto.
-function ProductDetailPage({ products = [], productId, onAddToCart, loading, error, navigate }) {
+function ProductDetailPage({ productId, navigate }) {
+  const { products, loading, error } = useProducts()
+  const { addItem } = useCart()
   const product = products.find((item) => String(item.id) === String(productId))
+
+  const handleAddToCart = () => {
+    if (!product) {
+      return
+    }
+    addItem(product)
+    toast.success(`${product.title} se agregó a tu carrito`)
+  }
 
   if (loading && !product) {
     return (
@@ -38,6 +51,10 @@ function ProductDetailPage({ products = [], productId, onAddToCart, loading, err
 
   return (
     <article className="page product-detail">
+      <Helmet>
+        <title>{product.title} | Tech Market</title>
+        <meta name="description" content={product.description} />
+      </Helmet>
       <button type="button" className="product-detail__back" onClick={() => navigate('/products')}>
         ← Volver
       </button>
@@ -49,7 +66,7 @@ function ProductDetailPage({ products = [], productId, onAddToCart, loading, err
         <p className="product-detail__category">{product.category}</p>
         <p className="product-detail__description">{product.description}</p>
         <p className="product-detail__price">{formatCurrency(product.price)}</p>
-        <button type="button" className="product-detail__cta" onClick={() => onAddToCart(product)}>
+        <button type="button" className="product-detail__cta" onClick={handleAddToCart}>
           Agregar al carrito
         </button>
       </div>

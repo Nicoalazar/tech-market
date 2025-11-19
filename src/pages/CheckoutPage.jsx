@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { toast } from 'react-toastify'
 import { formatCurrency } from '../utils/formatters.js'
+import { useCart } from '../context/CartContext.jsx'
 
-// En esta pantalla capturo los datos del usuario y confirmo la compra.
-function CheckoutPage({ cartItems, onClearCart, navigate }) {
+function CheckoutPage({ navigate }) {
+  const { cartItems, clearCart } = useCart()
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [confirmation, setConfirmation] = useState(false)
   const [pendingOrder, setPendingOrder] = useState(null)
@@ -36,6 +39,7 @@ function CheckoutPage({ cartItems, onClearCart, navigate }) {
   const handleConfirmPurchase = () => {
     setShowConfirmation(false)
     setConfirmation(true)
+    toast.success('Compra realizada con éxito')
   }
 
   // Cuando el usuario vuelve al inicio limpio todo.
@@ -44,15 +48,32 @@ function CheckoutPage({ cartItems, onClearCart, navigate }) {
     navigate('/')
 
     setTimeout(() => {
-      onClearCart()
+      clearCart()
       if (formRef.current) {
         formRef.current.reset()
       }
     }, 0)
   }
 
+  if (cartItems.length === 0) {
+    return (
+      <div className="page">
+        <div className="state state--empty" role="status">
+          <p>Necesitas productos en tu carrito para completar la compra.</p>
+          <button type="button" className="state__action" onClick={() => navigate('/products')}>
+            Ver catálogo
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="page checkout">
+      <Helmet>
+        <title>Checkout | Tech Market</title>
+        <meta name="description" content="Ingresa tus datos de envío y finaliza tu compra." />
+      </Helmet>
       <header className="section__header">
         <div>
           <h2>Checkout</h2>
@@ -116,7 +137,7 @@ function CheckoutPage({ cartItems, onClearCart, navigate }) {
             </p>
             <p>Confirma para completar el proceso o cancela si deseas revisar tus datos.</p>
             <div className="modal__actions">
-              <button type="button" className="button button--secondary" onClick={handleCloseConfirmation}>
+              <button type="button" className="button button--ghost" onClick={handleCloseConfirmation}>
                 Revisar datos
               </button>
               <button type="button" className="button" onClick={handleConfirmPurchase}>

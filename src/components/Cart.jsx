@@ -1,10 +1,8 @@
+import { FiTrash2 } from 'react-icons/fi'
 import { formatCurrency } from '../utils/formatters.js'
 
-// Este componente muestra los productos del carrito y permite editarlos.
 function Cart({ items = [], onRemove, onUpdateQuantity, compact = false, navigate }) {
-  // Calculo cuántos productos hay en total.
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  // También sumo el precio total del carrito.
   const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   return (
@@ -36,8 +34,14 @@ function Cart({ items = [], onRemove, onUpdateQuantity, compact = false, navigat
                     onChange={(event) => onUpdateQuantity(item.id, Number(event.target.value))}
                   />
                 </label>
-                <button type="button" className="cart__remove" onClick={() => onRemove(item.id)}>
-                  Eliminar
+                <button
+                  type="button"
+                  className="cart__remove"
+                  onClick={() => onRemove(item.id)}
+                  aria-label={`Eliminar ${item.title}`}
+                >
+                  <FiTrash2 aria-hidden="true" />
+                  <span className="sr-only">Eliminar {item.title}</span>
                 </button>
               </div>
             </li>
@@ -50,12 +54,7 @@ function Cart({ items = [], onRemove, onUpdateQuantity, compact = false, navigat
           {' '}
           <span>{formatCurrency(totalPrice)}</span>
         </p>
-        <button
-          type="button"
-          className="cart__checkout"
-          onClick={() => navigate('/checkout')}
-          disabled={items.length === 0}
-        >
+        <button type="button" className="cart__checkout" onClick={() => navigate('/checkout')} disabled={items.length === 0}>
           Ir al checkout
         </button>
       </div>

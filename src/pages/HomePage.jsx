@@ -1,13 +1,28 @@
+import { Helmet } from 'react-helmet'
+import { toast } from 'react-toastify'
 import ProductList from '../components/ProductList.jsx'
+import { useCart } from '../context/CartContext.jsx'
+import { useProducts } from '../context/ProductContext.jsx'
 
-// Página inicial con productos destacados.
-function HomePage({ products = [], onAddToCart, loading, error, navigate }) {
+function HomePage({ navigate }) {
+  const { products, loading, error } = useProducts()
+  const { addItem } = useCart()
   const featuredProducts = products.slice(0, 4)
+
+  const handleAddToCart = (product) => {
+    addItem(product)
+    toast.success(`${product.title} se agregó a tu carrito`)
+  }
 
   return (
     <div className="page">
+      <Helmet>
+        <title>Tech Market | Tecnología inteligente</title>
+        <meta name="description" content="Explora los lanzamientos más recientes en tecnología y accesorios inteligentes." />
+      </Helmet>
       <section className="hero">
         <div>
+          <p className="eyebrow">Tecnología para todos</p>
           <h2>Bienvenido a Tech Market</h2>
           <p>
             Descubre la mejor selección de productos tecnológicos, accesorios y gadgets.
@@ -32,7 +47,7 @@ function HomePage({ products = [], onAddToCart, loading, error, navigate }) {
         </div>
         <ProductList
           products={featuredProducts}
-          onAddToCart={onAddToCart}
+          onAddToCart={handleAddToCart}
           loading={loading}
           error={error}
           navigate={navigate}
