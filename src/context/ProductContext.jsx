@@ -1,70 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const ProductContext = createContext()
-const API_URL = 'https://66f2f59771c84d8058791634.mockapi.io/api/v1/products'
-
-const FALLBACK_PRODUCTS = [
-  {
-    id: '101',
-    title: 'Audífonos inalámbricos Noise Canceller',
-    price: 2499,
-    description:
-      'Disfruta de una experiencia de sonido envolvente con cancelación activa de ruido y hasta 24 horas de batería.',
-    category: 'audio',
-    image:
-      'https://images.unsplash.com/photo-1518444028784-87283d1c93ff?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: '102',
-    title: 'Smartwatch deportivo Pro Fit',
-    price: 3199,
-    description:
-      'Monitoriza tu actividad diaria, tu frecuencia cardiaca y recibe notificaciones inteligentes en tu muñeca.',
-    category: 'wearables',
-    image:
-      'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: '103',
-    title: 'Laptop ultraligera 14"',
-    price: 18999,
-    description:
-      'Potencia y portabilidad con 16 GB de RAM, 512 GB SSD y pantalla Full HD antirreflejo.',
-    category: 'computadoras',
-    image:
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: '104',
-    title: 'Mouse ergonómico inalámbrico',
-    price: 799,
-    description:
-      'Diseño ergonómico para sesiones largas de trabajo con conectividad Bluetooth y sensor de alta precisión.',
-    category: 'accesorios',
-    image:
-      'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: '105',
-    title: 'Cámara mirrorless 4K',
-    price: 22999,
-    description:
-      'Captura imágenes y video en 4K con estabilización óptica y lente intercambiable 18-55 mm.',
-    category: 'fotografía',
-    image:
-      'https://images.unsplash.com/photo-1519183071298-a2962eadcdb2?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: '106',
-    title: 'Bocina inteligente con asistente de voz',
-    price: 1599,
-    description:
-      'Controla tu hogar inteligente, escucha música en alta fidelidad y recibe noticias con comandos de voz.',
-    category: 'hogar inteligente',
-    image:
-      'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=400&q=80',
-  },
-]
+const API_URL = 'https://6929cd4d9d311cddf34b4f3f.mockapi.io/api/v1/products'
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([])
@@ -90,8 +27,6 @@ export function ProductProvider({ children }) {
       setProducts(Array.isArray(data) ? data : [])
     } catch (requestError) {
       console.error('Error al obtener productos:', requestError)
-      setError('Problemas de conexión con MockAPI. Mostramos datos locales.')
-      setProducts((prev) => (prev.length > 0 ? prev : FALLBACK_PRODUCTS))
     } finally {
       setLoading(false)
     }

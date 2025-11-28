@@ -1,4 +1,4 @@
-const dolarPrice = 1450
+const dolarPrice = 1 //450
 
 // Convierto un precio en dólares a pesos argentinos en formato amigable.
 export function formatCurrency(value) {
