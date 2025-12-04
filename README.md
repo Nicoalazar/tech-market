@@ -75,3 +75,8 @@ src/
 ## Compatibilidad
 
 El diseño responsivo se probó en breakpoints móviles (≤768px), tablets (768-992px) y escritorios (≥992px) utilizando el grid inspirado en Bootstrap.
+
+//TODO: 
+1-MEJORA INICIO DE SESION
+2-CARRITO
+3-MEJOR ACTUALIZAR PRODUCTO
