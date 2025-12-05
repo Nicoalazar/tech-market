@@ -92,7 +92,7 @@ function Layout({ children, currentPath, navigate }) {
               {isAuthenticated ? (
                 <>
                   <span className="user-chip">
-                    <FiUser aria-hidden="true" /> {user?.name}
+                    <FiUser aria-hidden="true" /> {user?.user}
                   </span>
                   <button type="button" className="button button--ghost" onClick={logout}>
                     <FiLogOut aria-hidden="true" /> Salir

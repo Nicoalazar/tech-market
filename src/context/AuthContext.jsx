@@ -25,16 +25,20 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
-  const login = ({ email, name }) => {
-    const trimmedEmail = email?.trim()
+  const login = ({ user, password }) => {
+    const trimmedUser = user?.trim().split('@')[0]
 
-    if (!trimmedEmail) {
-      throw new Error('El correo es obligatorio para iniciar sesión')
+    if (!trimmedUser) {
+      throw new Error('El usuario es obligatorio para iniciar sesión')
+    }
+
+    if (!password) {
+      throw new Error('La contraseña es obligatoria para iniciar sesión')
     }
 
     const normalizedUser = {
-      email: trimmedEmail,
-      name: name?.trim() || trimmedEmail.split('@')[0] || 'Usuario',
+      user: trimmedUser,
+      password: password?.trim(),
       loggedAt: new Date().toISOString(),
     }
 

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 
 function LoginPage({ navigate }) {
   const { isAuthenticated, login } = useAuth()
-  const [formValues, setFormValues] = useState({ email: '', name: '' })
+  const [formValues, setFormValues] = useState({ user: '', password: '' })
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function LoginPage({ navigate }) {
 
     try {
       setSubmitting(true)
-      login({ email: formValues.email, name: formValues.name })
+      login({ user: formValues.user, password: formValues.password })
       toast.success('Sesión iniciada correctamente')
       navigate('/products')
     } catch (error) {
@@ -42,16 +42,20 @@ function LoginPage({ navigate }) {
       </Helmet>
       <div className="auth-card">
         <h2>Bienvenido nuevamente</h2>
-        <p>Inicia sesión para acceder a tu carrito y al panel administrativo.</p>
+        <p>Inicia sesión para acceder a tu carrito y tus productos.</p>
         <form onSubmit={handleSubmit} className="auth-card__form">
+          <div className="auth-card__form">
           <label>
-            Correo electrónico
-            <input name="email" type="email" value={formValues.email} onChange={handleChange} required />
+            Usuario
           </label>
+            <input name="user" type="email" value={formValues.user} onChange={handleChange} />
+          </div>
+          <div className="auth-card__form">
           <label>
-            Nombre
-            <input name="name" value={formValues.name} onChange={handleChange} placeholder="Opcional" />
+            Contraseña
           </label>
+            <input name="password" type="password" value={formValues.password} onChange={handleChange} />
+          </div>
           <button type="submit" className="button" disabled={submitting}>
             {submitting ? 'Ingresando…' : 'Ingresar'}
           </button>
