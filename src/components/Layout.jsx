@@ -32,6 +32,7 @@ const NavButton = styled.button`
   border-bottom: 2px solid transparent;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
+  position: relative;
 
   &.is-active,
   &:hover,
@@ -39,6 +40,40 @@ const NavButton = styled.button`
     color: #ffffff;
     border-color: #22d3ee;
     outline: none;
+  }
+`
+
+const CartButton = styled(NavButton)`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`
+
+const ActionButton = styled(NavButton)`
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+`
+
+const CartBadge = styled.span`
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1.2;
+  animation: ${props => props?.hasItems ? 'pulse 0.3s ease' : 'none'};
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
   }
 `
 
@@ -58,10 +93,10 @@ function Layout({ children, currentPath, navigate }) {
       <HeaderBar>
         <div className="container">
           <div className="row align-items-center gy-2">
-            <div className="col-12 col-md-4 d-flex align-items-center gap-2">
+            <div className="col-12 col-md-3 d-flex align-items-center gap-2">
               <BrandButton type="button" onClick={() => navigate('/')}>Tech Market</BrandButton>
             </div>
-            <div className="col-12 col-md-5 d-flex gap-3 justify-content-center">
+            <div className="col-12 col-md-5 d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
               <NavButton type="button" onClick={() => navigate('/')} className={currentPath === '/' ? 'is-active' : ''}>
                 Inicio
               </NavButton>
@@ -72,36 +107,30 @@ function Layout({ children, currentPath, navigate }) {
               >
                 Productos
               </NavButton>
-              <NavButton
+              <CartButton
                 type="button"
                 onClick={() => navigate('/cart')}
                 className={currentPath === '/cart' ? 'is-active' : ''}
                 aria-label="Ir al carrito"
               >
-                <FiShoppingCart aria-hidden="true" /> ({cartCount})
-              </NavButton>
-              <NavButton
-                type="button"
-                onClick={() => navigate('/admin')}
-                className={currentPath === '/admin' ? 'is-active' : ''}
-              >
-                <FiShield aria-hidden="true" /> Admin
-              </NavButton>
-            </div>
-            <div className="col-12 col-md-3 d-flex justify-content-md-end gap-2">
+                <FiShoppingCart aria-hidden="true" />
+                {cartCount > 0 ?
+                <CartBadge hasItems={cartCount > 0}>{cartCount}</CartBadge>
+                : null}
+              </CartButton>
               {isAuthenticated ? (
                 <>
                   <span className="user-chip">
                     <FiUser aria-hidden="true" /> {user?.user}
                   </span>
-                  <button type="button" className="button button--ghost" onClick={logout}>
+                  <ActionButton type="button" onClick={logout}>
                     <FiLogOut aria-hidden="true" /> Salir
-                  </button>
+                  </ActionButton>
                 </>
               ) : (
-                <button type="button" className="button button--ghost" onClick={() => navigate('/login')}>
+                <ActionButton type="button" onClick={() => navigate('/login')}>
                   <FiLogIn aria-hidden="true" /> Ingresar
-                </button>
+                </ActionButton>
               )}
             </div>
           </div>

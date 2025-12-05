@@ -8,11 +8,11 @@ function LoginPage({ navigate }) {
   const [formValues, setFormValues] = useState({ user: '', password: '' })
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/')
-    }
-  }, [isAuthenticated, navigate])
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate('/')
+  //   }
+  // }, [isAuthenticated, navigate])
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -24,9 +24,14 @@ function LoginPage({ navigate }) {
 
     try {
       setSubmitting(true)
+      const isAdmin = formValues.user === "admin" && formValues.password === "admin"
       login({ user: formValues.user, password: formValues.password })
       toast.success('Sesión iniciada correctamente')
-      navigate('/products')
+      if(isAdmin){
+        navigate('/admin')
+        return
+      }
+      navigate('/checkout')
     } catch (error) {
       toast.error(error.message)
     } finally {
@@ -48,7 +53,7 @@ function LoginPage({ navigate }) {
           <label>
             Usuario
           </label>
-            <input name="user" type="email" value={formValues.user} onChange={handleChange} />
+            <input name="user" type="text" value={formValues.user} onChange={handleChange} />
           </div>
           <div className="auth-card__form">
           <label>

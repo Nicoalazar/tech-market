@@ -10,7 +10,7 @@ export function ProductProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 8
 
   const fetchProducts = useCallback(async () => {
     try {

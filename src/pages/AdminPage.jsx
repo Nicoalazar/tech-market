@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
@@ -11,6 +11,7 @@ function AdminPage() {
   const [editingProduct, setEditingProduct] = useState(null)
   const [modalProduct, setModalProduct] = useState(null)
   const [submitting, setSubmitting] = useState(false)
+  const formRef = useRef(null)
 
   const handleCreate = async (values) => {
     try {
@@ -54,6 +55,14 @@ function AdminPage() {
     }
   }
 
+  const handleEditClick = (product) => {
+    setEditingProduct(product)
+    // Scroll suave hacia el formulario
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
   return (
     <div className="page">
       <Helmet>
@@ -69,7 +78,7 @@ function AdminPage() {
           </div>
         </div>
         <div className="row g-4">
-          <div className="col-12 col-lg-4">
+          <div className="col-12 col-lg-4" ref={formRef}>
             <ProductForm
               onSubmit={editingProduct ? handleUpdate : handleCreate}
               submitting={submitting}
@@ -100,7 +109,7 @@ function AdminPage() {
                       <p className="admin-list__description">{product.description}</p>
                     </div>
                     <div className="admin-list__actions">
-                      <button type="button" onClick={() => setEditingProduct(product)}>
+                      <button type="button" onClick={() => handleEditClick(product)}>
                         <FiEdit aria-hidden="true" />
                         Editar
                       </button>

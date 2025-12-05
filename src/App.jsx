@@ -83,9 +83,7 @@ function App() {
 
     if (currentPath === '/cart') {
       return (
-        <ProtectedRoute navigate={navigate}>
-          <CartPage navigate={navigate} />
-        </ProtectedRoute>
+        <CartPage navigate={navigate} />
       )
     }
 
@@ -93,9 +91,6 @@ function App() {
       return (
         <ProtectedRoute
           navigate={navigate}
-          allowAccess={cartItems.length > 0}
-          message="Tu carrito está vacío. Agrega productos antes de continuar."
-          redirectTo="/cart"
         >
           <CheckoutPage navigate={navigate} />
         </ProtectedRoute>

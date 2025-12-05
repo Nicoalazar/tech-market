@@ -54,9 +54,14 @@ function Cart({ items = [], onRemove, onUpdateQuantity, compact = false, navigat
           {' '}
           <span>{formatCurrency(totalPrice)}</span>
         </p>
-        <button type="button" className="cart__checkout" onClick={() => navigate('/checkout')} disabled={items.length === 0}>
-          Ir al checkout
-        </button>
+        {items.length > 0 ? (
+          <button type="button" className="cart__checkout" onClick={() => navigate('/checkout')} >
+            Ir al checkout
+          </button>
+        ) :
+          <button type="button" className="cart__checkout" onClick={() => navigate('/products')} >
+            Ir a comprar
+          </button>}
       </div>
     </div>
   )

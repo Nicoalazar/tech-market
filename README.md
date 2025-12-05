@@ -6,7 +6,7 @@ Aplicación de ecommerce construida con React y Vite que implementa carrito glob
 
 - **Gestión de carrito con Context API**: agregar, editar, vaciar y persistir el carrito en `localStorage`.
 - **Autenticación simulada**: inicio/cierre de sesión con `AuthContext` y persistencia en `localStorage`.
-- **Rutas protegidas**: acceso restringido a carrito, checkout y panel administrativo.
+- **Rutas protegidas**: acceso restringido a checkout y panel administrativo.
 - **CRUD con MockAPI**: formularios validados, edición y eliminación con confirmación y manejo de errores.
 - **Búsqueda y paginación**: filtros en tiempo real por nombre/categoría y paginador configurable.
 - **Diseño responsivo**: grid inspirado en Bootstrap, componentes estilizados con `styled-components` (shim) y layout optimizado.
@@ -46,7 +46,7 @@ Aplicación de ecommerce construida con React y Vite que implementa carrito glob
 
 ## Configuración de API
 
-Por defecto se consume `https://66f2f59771c84d8058791634.mockapi.io/api/v1/products`. Si la API no está disponible, la app muestra un mensaje de error y datos locales de respaldo.
+Consume `https://6929cd4d9d311cddf34b4f3f.mockapi.io/api/v1/products`.
 
 ## Scripts disponibles
 
@@ -76,7 +76,3 @@ src/
 
 El diseño responsivo se probó en breakpoints móviles (≤768px), tablets (768-992px) y escritorios (≥992px) utilizando el grid inspirado en Bootstrap.
 
-//TODO: 
-1-MEJORA INICIO DE SESION
-2-CARRITO
-3-MEJOR ACTUALIZAR PRODUCTO

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 import ProductList from '../components/ProductList.jsx'
@@ -8,6 +9,13 @@ function HomePage({ navigate }) {
   const { products, loading, error } = useProducts()
   const { addItem } = useCart()
   const featuredProducts = products.slice(0, 4)
+
+  // Seleccionar producto aleatorio (solo se recalcula cuando cambia products)
+  const randomProduct = useMemo(() => {
+    if (products.length === 0) return null
+    const randomIndex = Math.floor(Math.random() * products.length)
+    return products[randomIndex]
+  }, [products])
 
   const handleAddToCart = (product) => {
     addItem(product)
@@ -34,7 +42,23 @@ function HomePage({ navigate }) {
         </div>
         <div className="hero__highlight" aria-hidden="true">
           <span>Novedades</span>
-          <p>Ofertas exclusivas cada semana.</p>
+          {randomProduct ? (
+            <>
+              <p>{randomProduct.title}</p>
+              <img 
+                src={randomProduct.image} 
+                alt={randomProduct.title}
+                loading="lazy"
+                onClick={() => navigate(`/products/${randomProduct.id}`)}
+                className="hero__highlight-image"
+              />
+            </>
+          ) : (
+            <>
+              <p>Ofertas exclusivas cada semana.</p>
+              <img src="/images/hero.png" alt="Hero banner" loading="lazy" />
+            </>
+          )}
         </div>
       </section>
 
