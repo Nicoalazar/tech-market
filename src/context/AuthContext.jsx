@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const AuthContext = createContext()
 const AUTH_STORAGE_KEY = 'tech_market_user'
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
-  const login = ({ user, password }) => {
+  const login = useCallback(({ user, password }) => {
     const trimmedUser = user?.trim().split('@')[0]
 
     if (!trimmedUser) {
@@ -52,9 +52,9 @@ export function AuthProvider({ children }) {
 
     setUser(normalizedUser)
     return normalizedUser
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.removeItem(AUTH_STORAGE_KEY)
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
     }
 
     setUser(null)
-  }
+  }, [])
 
   const value = useMemo(
     () => ({
@@ -74,7 +74,7 @@ export function AuthProvider({ children }) {
       logout,
       loading,
     }),
-    [user, loading],
+    [user, loading, login, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

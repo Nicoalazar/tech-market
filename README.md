@@ -34,6 +34,14 @@ Aplicación de ecommerce construida con React y Vite que implementa carrito glob
    npm run preview
    ```
 
+### Despliegue en servidor
+
+El sitio está listo para publicarse como aplicación estática generada por Vite.
+
+1. Ejecuta `npm run build` para generar la carpeta `dist/`.
+2. Sube el contenido de `dist/` a tu servidor o CDN preferido (Nginx, Apache, Netlify, Vercel, etc.).
+3. Asegúrate de habilitar el soporte para rutas con hash (`/#/ruta`) para evitar problemas de refresco.
+
 ## Uso
 
 - **Inicio**: muestra productos destacados y CTA hacia el catálogo.
@@ -43,6 +51,7 @@ Aplicación de ecommerce construida con React y Vite que implementa carrito glob
 - **Checkout**: formulario validado con confirmación modal y limpieza del carrito tras el pago.
 - **Admin**: CRUD completo contra MockAPI con validaciones y confirmaciones.
 - **Login**: formulario simple que simula la autenticación y persiste la sesión.
+  - Para probar el modo administrador, utiliza usuario `admin` y contraseña `admin`.
 
 ## Configuración de API
 
@@ -74,5 +83,5 @@ src/
 
 ## Compatibilidad
 
-El diseño responsivo se probó en breakpoints móviles (≤768px), tablets (768-992px) y escritorios (≥992px) utilizando el grid inspirado en Bootstrap.
+El diseño responsivo se probó en breakpoints móviles (≤768px), tablets (768-992px) y escritorios (≥992px) utilizando el grid inspirado en Bootstrap. Se validaron interacciones clave (navegación, login, carrito y checkout) y se optimizaron paddings y acciones en tarjetas para mejorar la usabilidad táctil y los tiempos de carga en dispositivos móviles.
 
