@@ -1,0 +1,15 @@
+# Configuración de Netlify para desplegar una aplicación React
+[build]
+  # Directorio donde se genera el build de producción
+  publish = "dist"
+  
+  # Comando para crear el build de producción
+  command = "npm run build"
+
+# Redirecciones para SPA (Single Page Application)
+# Esto hace que todas las rutas se redirijan a index.html
+# para que React Router pueda manejar el routing del lado del cliente
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
