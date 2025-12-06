@@ -27,6 +27,7 @@ export function ProductProvider({ children }) {
       setProducts(Array.isArray(data) ? data : [])
     } catch (requestError) {
       console.error('Error al obtener productos:', requestError)
+      setError('No fue posible cargar los productos. Inténtalo nuevamente en unos instantes.')
     } finally {
       setLoading(false)
     }

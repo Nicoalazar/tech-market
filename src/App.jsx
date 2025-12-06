@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import Layout from './components/Layout.jsx'
 import HomePage from './pages/HomePage.jsx'
@@ -36,8 +36,9 @@ function normalizePath(path) {
 function App() {
   const [currentPath, setCurrentPath] = useState(getCurrentPath())
   const { cartItems } = useCart()
+  const hasItemsInCart = cartItems.length > 0
 
-  const navigate = (path) => {
+  const navigate = useCallback((path) => {
     if (typeof window === 'undefined') {
       return
     }
@@ -48,7 +49,7 @@ function App() {
     if (target !== actual) {
       window.location.hash = target
     }
-  }
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -83,10 +84,13 @@ function App() {
 
     if (currentPath === '/cart') {
       return (
-        <ProtectedRoute navigate={navigate}
-        allowAccess={cartItems.length > 0}        
+        <ProtectedRoute
+          navigate={navigate}
+          allowAccess={hasItemsInCart}
+          fallbackPath="/products"
+          message="Tu carrito está vacío. Agrega productos para continuar."
         >
-        <CartPage navigate={navigate} />
+          <CartPage navigate={navigate} />
         </ProtectedRoute>
       )
     }
@@ -95,19 +99,22 @@ function App() {
       return (
         <ProtectedRoute
           navigate={navigate}
+          allowAccess={hasItemsInCart}
+          fallbackPath="/cart"
+          message="Agrega productos al carrito para finalizar tu compra."
         >
           <CheckoutPage navigate={navigate} />
         </ProtectedRoute>
       )
     }
 
-  if (currentPath === '/admin') {
-    return (
-      <ProtectedRoute navigate={navigate} requireAdmin={true}>
-        <AdminPage navigate={navigate} />
-      </ProtectedRoute>
-    )
-  }
+    if (currentPath === '/admin') {
+      return (
+        <ProtectedRoute navigate={navigate} requireAdmin={true}>
+          <AdminPage navigate={navigate} />
+        </ProtectedRoute>
+      )
+    }
 
     return <NotFoundPage navigate={navigate} />
   }
