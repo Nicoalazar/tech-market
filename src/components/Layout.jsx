@@ -65,7 +65,7 @@ const CartBadge = styled.span`
   min-width: 20px;
   text-align: center;
   line-height: 1.2;
-  animation: ${props => props?.hasItems ? 'pulse 0.3s ease' : 'none'};
+  animation: ${props => props?.$hasItems ? 'pulse 0.3s ease' : 'none'};
 
   @keyframes pulse {
     0%, 100% {
@@ -96,7 +96,7 @@ function Layout({ children, currentPath, navigate }) {
             <div className="col-12 col-md-3 d-flex align-items-center gap-2">
               <BrandButton type="button" onClick={() => navigate('/')}>Tech Market</BrandButton>
             </div>
-            <div className="col-12 col-md-5 d-flex justify-content-md-end align-items-center gap-3 flex-wrap">
+            <div className="col-12 col-md-5 d-flex justify-content-md-end align-items-center gap-3 flex-wrap change">
               <NavButton type="button" onClick={() => navigate('/')} className={currentPath === '/' ? 'is-active' : ''}>
                 Inicio
               </NavButton>

@@ -62,6 +62,13 @@
     justify-content: flex-end;
   }
 }
+/* Navbar responsive */
+@media (max-width: 767px) {
+  .change {
+    justify-content: center !important;
+    flex-direction: column;
+  }
+}
 
 .gy-2 {
   --bs-gutter-y: 0.75rem;
