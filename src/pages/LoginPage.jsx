@@ -31,7 +31,7 @@ function LoginPage({ navigate }) {
         navigate('/admin')
         return
       }
-      navigate('/checkout')
+      navigate('/cart')
     } catch (error) {
       toast.error(error.message)
     } finally {

@@ -83,7 +83,11 @@ function App() {
 
     if (currentPath === '/cart') {
       return (
+        <ProtectedRoute navigate={navigate}
+        allowAccess={cartItems.length > 0}        
+        >
         <CartPage navigate={navigate} />
+        </ProtectedRoute>
       )
     }
 
@@ -97,13 +101,13 @@ function App() {
       )
     }
 
-    if (currentPath === '/admin') {
-      return (
-        <ProtectedRoute navigate={navigate}>
-          <AdminPage navigate={navigate} />
-        </ProtectedRoute>
-      )
-    }
+  if (currentPath === '/admin') {
+    return (
+      <ProtectedRoute navigate={navigate} requireAdmin={true}>
+        <AdminPage navigate={navigate} />
+      </ProtectedRoute>
+    )
+  }
 
     return <NotFoundPage navigate={navigate} />
   }

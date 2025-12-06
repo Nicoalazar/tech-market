@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 
-function ProtectedRoute({ children, navigate, redirectTo = '/login', allowAccess = true, message }) {
-  const { isAuthenticated, loading } = useAuth()
+function ProtectedRoute({ children, navigate, redirectTo = '/login', requireAdmin = false, message }) {
+  const { isAuthenticated, user, loading } = useAuth()
+
+  // Verificar si el usuario tiene acceso
+  const hasAccess = !requireAdmin || (user?.user === 'admin' && user?.password === 'admin')
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -11,10 +14,10 @@ function ProtectedRoute({ children, navigate, redirectTo = '/login', allowAccess
   }, [isAuthenticated, loading, navigate, redirectTo])
 
   useEffect(() => {
-    if (!loading && isAuthenticated && !allowAccess && redirectTo) {
-      navigate(redirectTo)
+    if (!loading && isAuthenticated && requireAdmin && !hasAccess) {
+      navigate('/')
     }
-  }, [allowAccess, isAuthenticated, loading, navigate, redirectTo])
+  }, [hasAccess, isAuthenticated, loading, navigate, requireAdmin])
 
   if (loading) {
     return (
@@ -36,10 +39,10 @@ function ProtectedRoute({ children, navigate, redirectTo = '/login', allowAccess
     )
   }
 
-  if (!allowAccess) {
+  if (requireAdmin && !hasAccess) {
     return (
       <div className="state state--error" role="alert">
-        <p>{message || 'No cuentas con los permisos necesarios para esta sección.'}</p>
+        <p>{message || 'No tienes permisos de administrador para acceder a esta sección.'}</p>
         <button type="button" className="state__action" onClick={() => navigate('/products')}>
           Explorar productos
         </button>
