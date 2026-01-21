@@ -813,3 +813,27 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 576px) {
+  .page {
+    padding: 1.25rem;
+  }
+
+  .hero {
+    padding: 1.75rem;
+  }
+
+  .section__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-card__actions {
+    flex-direction: column;
+  }
+
+  .product-card__actions button {
+    max-width: none;
+    width: 100%;
+  }
+}

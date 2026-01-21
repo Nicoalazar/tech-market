@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const CartContext = createContext()
 const CART_STORAGE_KEY = 'tech_market_cart'
@@ -32,7 +32,7 @@ export function CartProvider({ children }) {
     }
   }, [items])
 
-  const addItem = (product) => {
+  const addItem = useCallback((product) => {
     setItems((prevItems) => {
       const existing = prevItems.find((item) => item.id === product.id)
 
@@ -53,13 +53,13 @@ export function CartProvider({ children }) {
         },
       ]
     })
-  }
+  }, [])
 
-  const removeItem = (productId) => {
+  const removeItem = useCallback((productId) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== productId))
-  }
+  }, [])
 
-  const updateQuantity = (productId, quantity) => {
+  const updateQuantity = useCallback((productId, quantity) => {
     setItems((prevItems) => {
       if (Number.isNaN(quantity) || quantity <= 0) {
         return prevItems.filter((item) => item.id !== productId)
@@ -69,9 +69,9 @@ export function CartProvider({ children }) {
         item.id === productId ? { ...item, quantity: Math.floor(quantity) } : item,
       )
     })
-  }
+  }, [])
 
-  const clearCart = () => setItems([])
+  const clearCart = useCallback(() => setItems([]), [])
 
   const cartCount = useMemo(() => items.reduce((acc, item) => acc + item.quantity, 0), [items])
   const totalPrice = useMemo(
@@ -89,7 +89,7 @@ export function CartProvider({ children }) {
       cartCount,
       totalPrice,
     }),
-    [items, cartCount, totalPrice],
+    [items, cartCount, totalPrice, addItem, removeItem, updateQuantity, clearCart],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

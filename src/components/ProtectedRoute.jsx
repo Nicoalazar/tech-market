@@ -1,7 +1,15 @@
 import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 
-function ProtectedRoute({ children, navigate, redirectTo = '/login', requireAdmin = false, message }) {
+function ProtectedRoute({
+  children,
+  navigate,
+  redirectTo = '/login',
+  fallbackPath = '/',
+  requireAdmin = false,
+  allowAccess = true,
+  message,
+}) {
   const { isAuthenticated, user, loading } = useAuth()
 
   // Verificar si el usuario tiene acceso
@@ -18,6 +26,12 @@ function ProtectedRoute({ children, navigate, redirectTo = '/login', requireAdmi
       navigate('/')
     }
   }, [hasAccess, isAuthenticated, loading, navigate, requireAdmin])
+
+  useEffect(() => {
+    if (!loading && isAuthenticated && !allowAccess) {
+      navigate(fallbackPath)
+    }
+  }, [allowAccess, fallbackPath, isAuthenticated, loading, navigate])
 
   if (loading) {
     return (
@@ -45,6 +59,17 @@ function ProtectedRoute({ children, navigate, redirectTo = '/login', requireAdmi
         <p>{message || 'No tienes permisos de administrador para acceder a esta sección.'}</p>
         <button type="button" className="state__action" onClick={() => navigate('/products')}>
           Explorar productos
+        </button>
+      </div>
+    )
+  }
+
+  if (!allowAccess) {
+    return (
+      <div className="state state--error" role="alert">
+        <p>{message || 'No tienes acceso a esta sección.'}</p>
+        <button type="button" className="state__action" onClick={() => navigate(fallbackPath)}>
+          Volver
         </button>
       </div>
     )
